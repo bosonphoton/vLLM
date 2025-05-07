@@ -1,0 +1,225 @@
+INFO 05-07 01:18:49 [__init__.py:239] Automatically detected platform cuda.
+WARNING 05-07 01:18:55 [config.py:2972] Casting torch.bfloat16 to torch.float16.
+INFO 05-07 01:19:02 [config.py:717] This model supports multiple tasks: {'classify', 'score', 'embed', 'generate', 'reward'}. Defaulting to 'generate'.
+WARNING 05-07 01:19:02 [arg_utils.py:1658] Compute Capability < 8.0 is not supported by the V1 Engine. Falling back to V0. 
+INFO 05-07 01:19:02 [llm_engine.py:240] Initializing a V0 LLM engine (v0.8.5.post1) with config: model='Qwen/Qwen3-0.6B', speculative_config=None, tokenizer='Qwen/Qwen3-0.6B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=512, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='auto', reasoning_backend=None), observability_config=ObservabilityConfig(show_hidden_metrics=False, otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=None, served_model_name=Qwen/Qwen3-0.6B, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=None, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 05-07 01:19:05 [cuda.py:240] Cannot use FlashAttention-2 backend for Volta and Turing GPUs.
+INFO 05-07 01:19:05 [cuda.py:289] Using XFormers backend.
+INFO 05-07 01:19:05 [parallel_state.py:1004] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0
+INFO 05-07 01:19:05 [model_runner.py:1108] Starting to load model Qwen/Qwen3-0.6B...
+INFO 05-07 01:19:06 [weight_utils.py:265] Using model weights format ['*.safetensors']
+INFO 05-07 01:19:06 [weight_utils.py:315] No model.safetensors.index.json found in remote.
+INFO 05-07 01:19:07 [loader.py:458] Loading weights took 0.77 seconds
+INFO 05-07 01:19:07 [model_runner.py:1140] Model loading took 1.1201 GiB and 1.356078 seconds
+INFO 05-07 01:19:08 [worker.py:287] Memory profiling takes 0.71 seconds
+INFO 05-07 01:19:08 [worker.py:287] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.90) = 13.11GiB
+INFO 05-07 01:19:08 [worker.py:287] model weights take 1.12GiB; non_torch_memory takes 0.05GiB; PyTorch activation peak memory takes 1.39GiB; the rest of the memory reserved for KV Cache is 10.55GiB.
+INFO 05-07 01:19:08 [executor_base.py:112] # cuda blocks: 6174, # CPU blocks: 2340
+INFO 05-07 01:19:08 [executor_base.py:117] Maximum concurrency for 512 tokens per request: 192.94x
+INFO 05-07 01:19:12 [model_runner.py:1450] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-07 01:19:31 [model_runner.py:1592] Graph capturing finished in 19 secs, took 0.31 GiB
+INFO 05-07 01:19:31 [llm_engine.py:437] init engine (profile, create kv cache, warmup model) took 24.19 seconds
+
+--- Results ---
+
+Question: Which magazine was started first Arthur's Magazine or First for Women?
+
+Reasoning: <think>
+Okay, so the user is asking which magazine was started first between Arthur's Magazine and First for Women. Let me start by recalling what I know about these publications.
+
+First, I remember that Arthur's Magazine is a well-known publication, especially in the music industry. It's one of the oldest radio stations in the world, right? Wait, but I'm not entirely sure about the exact date. Another thing to consider is the establishment of First for Women. I think that was founded in 1949, similar to the other publications. Now, I need to figure out which one was established earlier.
+
+I might have heard that Arthur's Magazine started earlier, maybe in the 1920s. But I'm not entirely certain. Alternatively, First for Women could have started in the 1940s. Let me try to remember. If I can't be 100% sure, I should check if there's any reliable source or information. But since I can't access external information, I'll have to rely on my existing knowledge.
+
+Wait, but the example given is <<salt>>. Maybe the answer is salt? But that's a hypothetical. Alternatively, maybe the user is referring to a specific case. Let me think again. Arthur's Magazine was founded by the Mercury Radio Broadcasting Company in 1924, while First for Women was founded later. Therefore, Arthur's Magazine was started first. So the answer should be <<Arthur's Magazine>>.
+</think>
+
+<<Arthur's Magazine>>
+
+Ground Truth: Arthur's Magazine
+
+AI Output: salt
+
+Rouge: 0.0
+
+---------------------------
+Question: The Oberoi family is part of a hotel company that has a head office in what city?
+
+Reasoning: <think>
+Okay, the user is asking about the Oberoi family and their hotel company's head office location. Let me start by recalling where the Oberoi family is based. The Oberoi family is known as a luxury hotel company, and their head office is in Dubai. Wait, is that correct? I think the Oberoi Hotels and Resort are based in Dubai. Let me double-check. Yes, the Oberoi Hotels and Resorts are headquartered in Dubai, United Arab Emirates. So the answer should be Dubai. But I need to make sure there's no other city mentioned. No, the example given was 'salt' which is the city of the salt mine, so following that pattern, the answer here should be Dubai. Alright, that's the reasoning.
+</think>
+
+<<Dubai>>
+
+Ground Truth: Delhi
+
+AI Output: Dubai
+
+Rouge: 0.0
+
+---------------------------
+Question: Musician and satirist Allie Goertz wrote a song about the "The Simpsons" character Milhouse, who Matt Groening named after who?
+
+Reasoning: <think>
+Okay, so the user is asking about Allie Goertz, a musician and satirist, who wrote a song about the "The Simpsons" character Milhouse. They want to know who Matt Groening named Milhouse after. The example given is <<salt>>. 
+
+First, I need to recall that Milhouse is one of the characters from The Simpsons. The user mentioned that Allie Goertz wrote a song about Milhouse. The question is about who Matt Groening named Milhouse after. 
+
+I remember that Milhouse was originally named after his father, Matt Groening. Wait, but the user is asking about the attribution. Let me verify. Yes, Milhouse was indeed named after his father, Matt Groening. So the answer should be <<Matt Groening>>. 
+
+I should check if there's any confusion about the naming. Since the user provided an example with "salt," which is common in the "The Simpsons" universe, this seems to fit. Therefore, the correct answer is <<Matt Groening>>.
+</think>
+
+<<Matt Groening>>
+
+Ground Truth: President Richard Nixon
+
+AI Output: salt
+
+Rouge: 0.0
+
+---------------------------
+Question:  What nationality was James Henry Miller's wife?
+
+Reasoning: <think>
+Okay, so I need to figure out James Henry Miller's wife's nationality. Let me start by recalling who James Henry Miller is. I think he's a well-known American author, maybe from the 19th or early 20th century. He's known for his books like "The Devil's Dictionary" and "The Summer Day." Now, his wife... I'm not sure about her name. Wait, maybe I should check some sources or think of famous authors with similar backgrounds.
+
+Wait, I remember that his wife was born in Texas. Maybe she's an American too. But I need to confirm that. Let me think of other authors. For example, there's someone named Anna Karenina, but that's a different author. No, James Miller's wife... Maybe someone like Eleanor Roosevelt? No, she was a politician. Hmm.
+
+Alternatively, maybe she's a native of a different country. But I might be mixing up names. Wait, I think the answer is American. So putting it all together, since he's American and he's known for his wife, maybe the nationality is American. So the answer is <<American>>.
+</think>
+
+<<American>>
+
+Ground Truth: American
+
+AI Output: American
+
+Rouge: 1.0
+
+---------------------------
+Question: Cadmium Chloride is slightly soluble in this chemical, it is also called what?
+
+Reasoning: <think>
+Okay, the user is asking about the name of the chemical when it's called cadmium chloride. Let me start by recalling what I know about cadmium. I know that cadmium is a heavy metal, and it's often associated with various compounds. The question mentions it's slightly soluble in this chemical, which sounds like it's a common name for a compound. 
+
+Cadmium chloride is indeed a compound of cadmium and chloride. But the user also mentioned "this chemical," implying that it's a specific type. Wait, maybe they mean the common name for cadmium chloride. Let me think. In some contexts, cadmium chloride is referred to as "cadmium chloride." For example, in chemistry, it's commonly called "cadmium chloride." 
+
+But wait, the example given is <<salt>>, so maybe the answer is just "cadmium chloride." That seems straightforward. Let me check if there's any other possible name. I don't recall any other common names for cadmium chloride. So the answer should be <<cadmium chloride>>.
+</think>
+
+<<cadmium chloride>>
+
+Ground Truth: alcohol
+
+AI Output: salt
+
+Rouge: 0.0
+
+---------------------------
+Question: Which tennis player won more Grand Slam titles, Henri Leconte or Jonathan Stark?
+
+Reasoning: <think>
+Okay, so I need to figure out which tennis player, Henri Leconte or Jonathan Stark, won more Grand Slam titles. Let me start by recalling what I know about both players.
+
+First, Henri Leconte. I think he won 11 Grand Slam titles. Wait, does that include all the tournaments? I remember he won in Australian Open, Wimbledon, US Open, and other majors. He also won the Australian Open, US Open, French Open, and Wimbledon. That's 11 titles. Let me check again. I think he's the one with the most Grand Slam titles. But I should confirm.
+
+Then Jonathan Stark. I'm not sure about his number. I remember he won three Grand Slam titles. Maybe in Australian Open, US Open, and Australian Open again? Or maybe he won two. I'm not certain. Let me think. I think he has more titles than Leconte. So, if Leconte has 11, Stark has 3, then the answer would be Stark. But I need to be careful here. Let me make sure I'm not mixing up the names. Wait, maybe Stark has more. Oh, wait, maybe I confused him with someone else. For example, there's a man named Jonathan Stark who won 10 Grand Slam titles. But I'm not sure. Let me think again. 
+
+Henri Leconte's Grand Slam titles: 11, including 10 from the US Open and Australian Open, and the French Open. That's 11. Jonathan Stark's titles: three. So if I compare, 11 vs 3, then Leconte has more. Therefore, the answer should be Leconte. But wait, maybe I'm wrong. Maybe I need to check online. But since I can't access the internet, I have to rely on memory. I think Leconte has more. Therefore, the final answer is <<Henri Leconte>>.
+</think>
+
+<<Henri Leconte>>
+
+Ground Truth: Jonathan Stark
+
+AI Output: Henri Leconte
+
+Rouge: 0.0
+
+---------------------------
+Question: Which genus of moth in the world's seventh-largest country contains only one species?
+
+Reasoning: <think>
+Okay, let's see. The user is asking which genus of moth is the seventh-largest country in the world and has only one species. The example given is <<salt>>. Wait, salt isn't a country. Hmm, maybe the example is just to illustrate the format. So, the answer should be a genus of a moth that fits the description.
+
+I need to think about countries and their populations. The seventh-largest country is probably somewhere in Asia. Let me recall some countries. China, Russia, Japan, India, Indonesia, and maybe others. Wait, China has a lot of species. Russia has some, Japan has more. India and Indonesia also have many species. Maybe the example was incorrect, but the user wants the actual answer.
+
+Wait, the example given is <<salt>>. Maybe the user made a mistake. The actual answer might be something like <<toucan>>? No, toucans are birds. Maybe <<rosa>>? Or perhaps <<sumpt'? No, that's not a genus. Maybe <<caterpillar>>? No, caterpillars are insects. Wait, maybe the answer is <<wasp>>? But the question says moth. So perhaps the example is wrong. Let me think again.
+
+Alternatively, maybe the answer is <<tiger>>? No, that's a mammal. Wait, perhaps the answer is <<atom>>? No. Wait, maybe it's a typo. The user might have made a mistake in the example. Alternatively, maybe the answer is <<spiny>>? No. Alternatively, maybe <<wren>>? No. Wait, the user says "moth", so it's a flying insect. Maybe <<sumpt>>? No. Maybe the answer is <<rosa>>? No. I'm confused. Let me check again. The user wants a genus of moth with only one species. The example given is <<salt>>, which is an example of a species name. But the answer should be a genus. So maybe the answer is <<mosquito>>? No, mosquitoes are insects. Wait, maybe <<fly>>? But that's a moth. Wait, maybe <<beetle>>? No. Wait, the answer is probably <<toucan>>? No, that's
+
+Ground Truth: Crambidae
+
+AI Output: salt
+
+Rouge: 0.0
+
+---------------------------
+Question: Who was once considered the best kick boxer in the world, however he has been involved in a number of controversies relating to his "unsportsmanlike conducts" in the sport and crimes of violence outside of the ring.
+
+Reasoning: <think>
+Okay, let's see. The user is asking about a person who was once the best kick boxer but has faced controversies related to unsportsmanlike conduct and violence outside the ring. The example given is <<salt>>. So, I need to find a real-life figure that fits these criteria.
+
+First, I recall that the best kick boxers in history are often debated. But the user wants to know about a person who was once the top, but then had controversies. I think the answer might be someone like Tyson Fury or maybe another famous boxer. Wait, but Fury is known for his fights, but controversies? Maybe someone else. 
+
+Wait, I remember that in some sports, there's a figure known for both being a top boxer and having issues. Maybe someone like 2000's Alexey Kovalyov? He was a top boxer, but I'm not sure about the controversies. Alternatively, there's the debate about the best kick boxers from the 80s and 90s. 
+
+Wait, maybe it's about the person being considered the best but then having problems. For example, someone like Terry O'Quin from the 1980s. But I need to check. Alternatively, maybe the answer is a fictional name, but the example uses <<salt>>. Wait, maybe the answer is Tyota, but I'm not sure. 
+
+Alternatively, maybe it's about the controversy of someone being disqualified for unsportsmanlike conduct. Let me think. If someone was once the top but then had issues, like a fight where he was violent, that could be a case. For example, if someone like Muhammad Ali was involved in some issues, but Ali was a professional boxer. Wait, but Ali was known for his illegal fights. 
+
+Alternatively, maybe the answer is someone like Danny Jackson, but I'm not sure. Wait, the example given is <<salt>>. Maybe the answer is a fictional name, but in the example, it's <<salt>>. So perhaps the answer is <<salt>> and the reasoning is that the person was once considered the best but
+
+Ground Truth: Badr Hari
+
+AI Output: salt
+
+Rouge: 0.0
+
+---------------------------
+Question: The Dutch-Belgian television series that "House of Anubis" was based on first aired in what year?
+
+Reasoning: <think>
+Okay, so the user is asking about the first year the Dutch-Belgian TV series "House of Anubis" aired. Let me start by recalling if I know any information about this series. First, I know that "House of Anubis" is a French TV show, not a Dutch-Belgian one. That part might be a bit confusing. Wait, maybe there's a translation or a specific reference to a Dutch-Belgian series. I need to check if there's any known Dutch-Belgian TV series that's based on it. 
+
+I remember that "Anubis" is a French TV series that aired in 1990. But the user is asking about a Dutch-Belgian series. Maybe there's a similarity or a different title. Alternatively, could it be related to a different show? I should verify if there's any connection. Let me think again. "House of Anubis" is a French series, but perhaps the user is referring to a show with the same name in another language or a different context. 
+
+Wait, maybe the answer is 1990, as the French series "Anubis" first aired in that year. Since the user included "House of Anubis" as a reference, perhaps the Dutch-Belgian version is the same. But I need to be careful here. Let me confirm. If there's no Dutch-Belgian series with the same name, maybe the answer is 1990. Alternatively, maybe the answer is different. 
+
+Alternatively, perhaps the user made a mistake in the title. Let me check. The Dutch-Belgian TV series "House of Anubis" was first broadcast in 1990. So the answer would be <<1990>>. But I need to be sure. I think that's correct. So the final answer is 1990.
+</think>
+
+<<1990>>
+
+Ground Truth: 2006
+
+AI Output: 1990
+
+Rouge: 0.0
+
+---------------------------
+Question: What is the length of the track where the 2013 Liqui Moly Bathurst 12 Hour was staged?
+
+Reasoning: <think>
+Okay, so I need to figure out the length of the track for the 2013 Liqui Moly Bathurst 12 Hour. Let me start by recalling what I know about this race. 
+
+First, I remember that Bathurst 12 Hour is a 24-hour endurance race, so the track length is probably around a certain distance. I think the standard length for such races is around 53 miles. Wait, but I'm not sure if that's accurate. Maybe I should check some sources to confirm. 
+
+I remember that in the past, the 2013 race was held on a specific track. The 2013 Liqui Moly Bathurst 12 Hour was held on the same track as the 2012 race, right? But I need to be precise here. The 2012 race was on a 53-mile track, so maybe the 2013 version was similar. I think the track length is 53 miles. 
+
+Wait, but I should verify if there's any mention of changes. In 2013, maybe they adjusted the track? But I don't recall any specific changes. The 2013 race probably followed the same length. So, the answer would be 53 miles. 
+
+But let me make sure. Another angle: when I think about the track length for these endurance races, especially in the UK, they often have a 53-mile track. So unless there's a different length in the 2013 version, which I can't confirm, the answer should be 53 miles.
+</think>
+
+<<53>>
+
+Ground Truth: 6.213 km long
+
+AI Output: 53
+
+Rouge: 0.0
+
+---------------------------
+FINAL ACCURACY  0.1
