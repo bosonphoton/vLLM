@@ -8,3 +8,4 @@ __pycache__/
 *.log
 outputs/
 vllm-env/
+env/

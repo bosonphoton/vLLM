@@ -2,6 +2,7 @@
 import argparse, time, re, os
 import numpy as np
 import torch
+import math
 import matplotlib.pyplot as plt
 from datasets import load_from_disk
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -48,7 +49,7 @@ def generate_and_score(prompt, model, tokenizer):
         if len(ents) > 0:
             running_ent_mean = np.mean(ents)
             running_var = np.var(ents)
-            if abs(ents[-1] - running_ent_mean) > 2*running_var:
+            if abs(ents[-1] - running_ent_mean) > math.sqrt(running_var):
                 zScoreEnt.append(max(0, ents[-1] - running_ent_mean))
         else:
             running_ent_mean = ents[0]

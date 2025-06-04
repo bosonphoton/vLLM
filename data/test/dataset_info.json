@@ -1,0 +1,60 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "numina_math-tir",
+  "dataset_size": 327608398,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/AI-MO/NuminaMath-TIR@77a91d7b7a1a98ac4b1beb7d86c09d156b935dcd/data/train-00000-of-00001.parquet": {
+      "num_bytes": 147342955,
+      "checksum": null
+    },
+    "hf://datasets/AI-MO/NuminaMath-TIR@77a91d7b7a1a98ac4b1beb7d86c09d156b935dcd/data/test-00000-of-00001.parquet": {
+      "num_bytes": 215035,
+      "checksum": null
+    }
+  },
+  "download_size": 147557990,
+  "features": {
+    "solution": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "prompt": [
+      {
+        "content": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "role": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      }
+    ]
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 475166388,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 327147067,
+      "num_examples": 72441,
+      "dataset_name": "numina_math-tir"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 461331,
+      "num_examples": 99,
+      "dataset_name": "numina_math-tir"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
