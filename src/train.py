@@ -23,7 +23,7 @@ DEFAULT_LORA_R         = 8
 DEFAULT_LORA_ALPHA     = 32
 DEFAULT_LORA_DROPOUT   = 0.1
 DEFAULT_EPOCHS         = 1
-DEFAULT_BATCH_SIZE     = 4
+DEFAULT_BATCH_SIZE     = 1
 DEFAULT_GRAD_ACCUM     = 1
 DEFAULT_MAX_PROMPT     = 128
 DEFAULT_MAX_COMPLETION = 64
@@ -206,12 +206,14 @@ def make_confidence_reward(model, tokenizer, hallucination_labels: List[int]):
                     gen_text = "".join(gen)
             else:
                 raise TypeError(f"Unexpected completion type: {type(gen)}")
+            
 
             # extract confidence from output
             confidence = extract_confidence(gen_text)
 
             # hallucination label from dataset: 1 = NOT hallucinated, -1 = hallucinated
             y = 1 if hallucination_labels[i] == 0 else -1
+            print("Confidence: ", confidence, "IsHalu", y)
 
             # compute reward
             reward = 2 * (confidence - 0.5) * y
@@ -258,7 +260,7 @@ def main():
 
 
 #############################  SANITY Check 10 examples  #################################
-    train_ds = train_ds.select(range(10))  
+    train_ds = train_ds.select(range(30))  
 
     # Print the selected prompts
     for idx, sample in enumerate(train_ds):
