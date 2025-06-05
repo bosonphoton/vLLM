@@ -2,9 +2,12 @@ import argparse
 from datasets import load_dataset
 
 SYSTEM_PROMPT = (
-    "A conversation between User and Assistant. The user asks a question, and the Assistant solves it. "
-    "The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. "
-    "The reasoning process and answer are enclosed within <think></think> and <answer></answer> tags."
+  "A conversation between User and Assistant. The user asks a question, "
+  "and the Assistant solves it. The assistant first thinks step-by-step "
+  "and then provides the answer, as well as how confident they are in their answer."
+  "Enclose reasoning in <think>…</think> "
+  "and the final answer in <answer>…</answer>"
+  "and the self confidence in <confidence>…</confidence>, where confidence is a number between 0.0 and 1.0."
 )
 
 def make_conversation(example):

@@ -39,6 +39,8 @@ def generate_and_score(prompt, model, tokenizer):
     # decode
     generated = tokenizer.decode(seq, skip_special_tokens=True)
     gen_len   = seq.size(-1) - inputs.input_ids.size(-1)
+
+
     # per-token scores
     logps, ents, zScoreEnt = [], [], []
     running_ent_mean = 0
@@ -61,6 +63,8 @@ def find_best_threshold(scores, labels):
     f1 = 2*prec*rec/(prec+rec+1e-20)
     ix = np.nanargmax(f1)
     return thresh[ix], f1[ix], prec[ix], rec[ix]
+
+
 
 def main():
     args = parse_args()

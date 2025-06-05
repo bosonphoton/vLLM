@@ -9,6 +9,7 @@ import time
 from typing import List, Tuple, Union
 import numpy as np
 import math
+import re
 
 import torch
 from datasets import load_from_disk
@@ -166,6 +167,67 @@ def make_zScore_reward(model, tokenizer):
         return rewards
     return zScore_reward
 
+
+def extract_confidence(text: str) -> float:
+    """
+    Extracts the confidence value from the <confidence> tag in the model's output.
+    Returns a float ∈ [0.0, 1.0]. Defaults to 0.5 if not found or invalid.
+    """
+    match = re.search(r"<confidence>\s*(\d*\.?\d+)\s*</confidence>", text, re.IGNORECASE)
+    if match:
+        try:
+            val = float(match.group(1))
+            return max(0.0, min(1.0, val))  # clip to [0, 1]
+        except ValueError:
+            pass
+    return 0.5
+
+
+def make_confidence_reward(model, tokenizer, hallucination_labels: List[int]):
+    """
+    Builds a reward function using confidence alignment.
+    Reward = 2 * (confidence - 0.5) * y
+    where y = -1 if hallucination is present, +1 if not
+    """
+    def confidence_reward(
+        prompts: List[List[dict]],
+        completions: List[Union[str, List[str], List[dict]]],
+        **_
+    ):
+        rewards = []
+        for i, (prompt, gen) in enumerate(zip(prompts, completions)):
+            # normalize generation to string
+            if isinstance(gen, str):
+                gen_text = gen
+            elif isinstance(gen, list):
+                if gen and isinstance(gen[0], dict) and "content" in gen[0]:
+                    gen_text = "".join(turn["content"] for turn in gen)
+                else:
+                    gen_text = "".join(gen)
+            else:
+                raise TypeError(f"Unexpected completion type: {type(gen)}")
+
+            # extract confidence from output
+            confidence = extract_confidence(gen_text)
+
+            # hallucination label from dataset: 1 = NOT hallucinated, -1 = hallucinated
+            y = 1 if hallucination_labels[i] == 0 else -1
+
+            # compute reward
+            reward = 2 * (confidence - 0.5) * y
+            rewards.append(reward)
+
+        logger.info(f"  ▶ confidence_reward mean: {sum(rewards)/len(rewards):.3f}")
+        return rewards
+
+    return confidence_reward
+
+
+
+
+
+
+
 # ─── Argument Parsing ────────────────────────────────────────────────────────
 def parse_args():
     p = argparse.ArgumentParser(
@@ -213,6 +275,10 @@ def main():
     entropy_reward = make_entropy_reward(model, tokenizer)
     zScore_reward = make_zScore_reward(model, tokenizer)
 
+    hallucination_labels = [int(ex["is_hallucinated"]) for ex in train_ds]
+    conf_reward = make_confidence_reward(model, tokenizer, hallucination_labels)
+
+
     # 4) Configure GRPO
     logger.info("Configuring GRPO trainer…")
     grpo_cfg = GRPOConfig(
@@ -236,7 +302,8 @@ def main():
         args=grpo_cfg,
         train_dataset=train_ds,
         # reward_funcs=[logprob_reward, entropy_reward]
-        reward_funcs=[zScore_reward]
+        # reward_funcs=[zScore_reward]
+        reward_funcs=[conf_reward]
     )
 
     # 5) Train!

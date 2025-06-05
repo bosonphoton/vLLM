@@ -7,9 +7,12 @@ raw = load_dataset("pminervini/HaluEval", "qa")
 SYSTEM = (
   "A conversation between User and Assistant. The user asks a question, "
   "and the Assistant solves it. The assistant first thinks step-by-step "
-  "and then provides the answer. Enclose reasoning in <think>…</think> "
-  "and the final answer in <answer>…</answer>."
+  "and then provides the answer, as well as how confident they are in their answer."
+  "Enclose reasoning in <think>…</think> "
+  "and the final answer in <answer>…</answer>"
+  "and the self confidence in <confidence>…</confidence>, where confidence is a number between 0.0 and 1.0."
 )
+
 
 def remap(example):
     prompt = [
