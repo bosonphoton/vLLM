@@ -1,0 +1,54 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "qa",
+  "dataset_name": "halu_eval",
+  "dataset_size": 5486422,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/pminervini/HaluEval@12a856119f03975a94509091e8cada3e6be6ead7/qa/data-00000-of-00001.parquet": {
+      "num_bytes": 3751109,
+      "checksum": null
+    }
+  },
+  "download_size": 3751109,
+  "features": {
+    "prompt": [
+      {
+        "content": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "role": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      }
+    ],
+    "solution": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "is_hallucinated": {
+      "dtype": "int64",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 9237531,
+  "splits": {
+    "data": {
+      "name": "data",
+      "num_bytes": 5486422,
+      "num_examples": 10000,
+      "dataset_name": "halu_eval"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

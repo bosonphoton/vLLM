@@ -254,6 +254,17 @@ def main():
     logger.info(f"Loading dataset from {train_path} …")
     train_ds = load_from_disk(train_path)
 
+
+
+
+#############################  SANITY Check 10 examples  #################################
+    train_ds = train_ds.select(range(10))  
+
+    # Print the selected prompts
+    for idx, sample in enumerate(train_ds):
+        print(f"query {idx} prompt: {sample['prompt']}")
+#############################  SANITY Check 10 examples  #################################
+
     # 2) Load base model & apply LoRA
     logger.info(f"Loading base model ({args.model_id}) + applying LoRA…")
     base_model = AutoModelForCausalLM.from_pretrained(
@@ -286,7 +297,7 @@ def main():
         learning_rate=args.lr,
         num_train_epochs=args.epochs,
         gradient_accumulation_steps=DEFAULT_GRAD_ACCUM,
-        bf16=True,
+        bf16=False,
         max_prompt_length=DEFAULT_MAX_PROMPT,
         max_completion_length=DEFAULT_MAX_COMPLETION,
         num_generations=DEFAULT_NUM_GEN,
