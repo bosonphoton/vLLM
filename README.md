@@ -1,4 +1,13 @@
-main file is run.py
+Main entrypoint is `main.py`
 
-todo
-- tokenizer.apply_chat_template to format instead of manually adding im tags
+## Setup
+
+(recommended)
+
+`python3 -m venv env` --> `source env/bin/activate`
+
+Install deps: `pip install -r src/requirements`
+
+## Execution
+
+`python run.py`

@@ -1,8 +1,13 @@
-from vllm import LLM, SamplingParams
-from datasets import load_dataset
-from tqdm import tqdm
 import re
+import math
+import torch
+
+from utils import sentence_entropy_scores, extract_sentences_and_logprobs, extract_reasoning_and_answer, token_entropy
+from datasets import load_dataset
 from rouge_score import rouge_scorer
+from tqdm import tqdm
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
 
 # Load the HaluEval dataset
 dataset = load_dataset("pminervini/HaluEval", 'qa')
@@ -15,13 +20,18 @@ hallucinated_answer = dataset["data"]["hallucinated_answer"]
 # ----------------------------
 # 1. Format Qwen prompts
 # ----------------------------
-def format_prompt(q):
-    prompt = "Give the final answer wrapped in <<>>. For instance <<salt>>"
-    return (
-        "<|im_start|>system\nYou are a reasoning agent.<|im_end|>\n"
-        f"<|im_start|>user\n{q + prompt}<|im_end|>\n"
-        "<|im_start|>assistant\n"
-    )
+def format_prompt(q, tokenizer):
+    chat = [
+      {"role": "system", "content": "You are a reasoning agent. Please think step by step."},
+      {"role": "user", "content": q},
+    ]
+    return tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)
+
+
+def rouge(reference, candidate):
+    scorer = rouge_scorer.RougeScorer(['rouge1'], use_stemmer=True)
+    score = scorer.score(reference, candidate)
+    return score['rouge1'].fmeasure
 
 # ----------------------------
 # 2. Extract text inside << >>
@@ -35,27 +45,37 @@ def rouge(reference, candidate):
     score = scorer.score(reference, candidate)
     return score['rouge1'].fmeasure
 
-# ----------------------------
+## ----------------------------
 # 3. Load model with vLLM
 # ----------------------------
 llm = LLM(model="Qwen/Qwen3-0.6B", max_model_len=512, dtype="half")
+tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-0.6B")
 
+#logprobs = hyperparamter to tweak
 sampling_params = SamplingParams(
     temperature=0.7,
-    max_tokens=1024
-)
+    max_tokens=1024,
+    logprobs=5,
 
+)
 
 X = question[:10]
 y = correct_answer[:10]
 
 # Format prompts
-prompts = [format_prompt(q) for q in X]
+prompts = [format_prompt(q, tokenizer) for q in X]
 
 # ----------------------------
 # 5. Generate predictions
 # ----------------------------
 outputs = llm.generate(prompts=prompts, sampling_params=sampling_params)
+
+# --- Example usage ---
+reasoning_output = outputs[0].outputs[0]
+
+# Compute and display sentence-level entropies
+for sentence, entropy in sentence_entropy_scores(reasoning_output):
+    print(f"Sentence: {sentence}\nEntropy: {entropy:.4f}\n")
 
 # ----------------------------
 # 6. Compare predictions to ground truth

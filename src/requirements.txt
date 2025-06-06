@@ -5,3 +5,6 @@ trl
 accelerate
 torch
 scikit-learn
+vllm
+rougue_score
+tqdm
